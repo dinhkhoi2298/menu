@@ -41,6 +41,12 @@ Include in your code and begin using the library:
 ```pawn
 #include <menu>
 ```
+## Functions
+```pawn
+Menu_Add(playerid, const item[26]);
+Menu_Show(playerid, menuid, const tittle[] = "Menu", const header[] = "Interaction");
+Menu_Hide(playerid);
+```
 ## Usage
 
 ```pawn
