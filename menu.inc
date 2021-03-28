@@ -17,6 +17,7 @@ static
     player_menu_id[MAX_PLAYERS],
     Iterator:player_items[MAX_PLAYERS]<MENU_MAX_ITEMS>,
     player_item_list[MAX_PLAYERS][MENU_MAX_ITEMS][26],
+    player_item_color[MAX_PLAYERS] = {MENU_MAIN_COLOR, ...},
     PlayerText:_@m_ptd[MAX_PLAYERS][5] = {PlayerText:-1, ...},
     PlayerText:_@m_box[MAX_PLAYERS][MENU_MAX_ITEM_PER_PAGE] = {PlayerText:-1, ...},
     PlayerText:_@m_item[MAX_PLAYERS][MENU_MAX_ITEM_PER_PAGE] = {PlayerText:-1, ...};
@@ -45,6 +46,7 @@ stock Menu_Show(playerid, menuid, const tittle[] = "Menu", const header[] = "Int
     
     PlayerTextDrawSetString(playerid, _@m_ptd[playerid][1], tittle);
     PlayerTextDrawSetString(playerid, _@m_ptd[playerid][3], header);
+    PlayerTextDrawColor(playerid, _@m_ptd[playerid][0], player_item_color[playerid]);
     for(new i = 0; i < 5; i ++) 
     {
         PlayerTextDrawShow(playerid, _@m_ptd[playerid][i]);
@@ -79,6 +81,12 @@ stock Menu_Hide(playerid)
     return 1;
 }
 
+stock Menu_SetColor(playerid, color)
+{
+    player_item_color[playerid] = color;
+    return 1;
+}
+
 static Menu_SelectIndex(playerid, index, cur_index = -1, bool:show = true) 
 {
     if(cur_index != -1) 
@@ -92,7 +100,7 @@ static Menu_SelectIndex(playerid, index, cur_index = -1, bool:show = true)
     if(_@m_box[playerid][index] != PlayerText:INVALID_TEXT_DRAW) 
     {
         SetPVarInt(playerid, "Menu.SelectIndex", index);
-        PlayerTextDrawColor(playerid, _@m_box[playerid][index], MENU_MAIN_COLOR);
+        PlayerTextDrawColor(playerid, _@m_box[playerid][index], player_item_color[playerid]);
         if(show) PlayerTextDrawShow(playerid, _@m_box[playerid][index]);
     }
 
@@ -202,7 +210,7 @@ public OnPlayerConnect(playerid)
 {
     _@m_ptd[playerid][0] = CreatePlayerTextDraw(playerid, 498.966491, 140.937042, "LD_SPAC:white"); // Main BG
     PlayerTextDrawTextSize(playerid, _@m_ptd[playerid][0], 110.000000, 51.000000);
-    PlayerTextDrawColor(playerid, _@m_ptd[playerid][0], MENU_MAIN_COLOR);
+    PlayerTextDrawColor(playerid, _@m_ptd[playerid][0], player_item_color[playerid]);
     PlayerTextDrawSetShadow(playerid, _@m_ptd[playerid][0], 0);
     PlayerTextDrawFont(playerid, _@m_ptd[playerid][0], 4);
 

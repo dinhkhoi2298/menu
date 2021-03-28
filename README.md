@@ -47,14 +47,23 @@ Include in your code and begin using the library:
 #include <Pawn.CMD>
 #include <menu>
 
+stock HexReturn(rr, gg, bb, aa)
+{
+	return (aa & 0xFF) | ((bb & 0xFF) << 8) | ((gg & 0xFF) << 16) | (rr << 24);
+}
+
 CMD:ya(playerid, params[])
 {
+    if(Menu_Showing(playerid))
+        return 1;
+
     for(new str[26], i = 0; i < strval(params) + 1; i ++)
     {
         format(str, 26, "Item %d", i);
         Menu_Add(playerid, str);
     }
     TogglePlayerControllable(playerid, 0);
+    Menu_SetColor(playerid, HexReturn(51, 153, 255, 200)); // Dodger Blue
     Menu_Show(playerid, 1, "HELLO YOOY!", "Interaction");
     return 1;
 } 
