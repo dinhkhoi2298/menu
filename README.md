@@ -42,7 +42,7 @@ Include in your code and begin using the library:
 #include <menu>
 ```
 ## Functions
-```pawn
+```bash
 Menu_Add(playerid, const item[26])
 Menu_SetColor(playerid, color)
 Menu_Show(playerid, menuid, const tittle[] = "Menu", const header[] = "Interaction")
