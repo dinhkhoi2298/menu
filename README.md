@@ -43,9 +43,10 @@ Include in your code and begin using the library:
 ```
 ## Functions
 ```pawn
-Menu_Add(playerid, const item[26]);
-Menu_Show(playerid, menuid, const tittle[] = "Menu", const header[] = "Interaction");
-Menu_Hide(playerid);
+Menu_Add(playerid, const item[26])
+Menu_SetColor(playerid, color)
+Menu_Show(playerid, menuid, const tittle[] = "Menu", const header[] = "Interaction")
+Menu_Hide(playerid)
 ```
 ## Usage
 
