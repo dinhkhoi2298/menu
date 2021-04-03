@@ -1,10 +1,14 @@
+// credits: Liv Javier
+
 #if defined _menu_included
     #endinput
 #endif
+
 #define _menu_included
 
 #include <a_samp>
 #include <YSI_Data/y_iterate>
+#include <YSI_Coding/y_hooks>
 
 const 
     MENU_MAX_ITEMS = 500,
@@ -206,7 +210,7 @@ stock Menu_GetMaxPage(playerid)
     return floatround((items % MENU_MAX_ITEM_PER_PAGE == 0) ? items / MENU_MAX_ITEM_PER_PAGE : items / MENU_MAX_ITEM_PER_PAGE + 1);
 }
 
-public OnPlayerConnect(playerid)
+hook OnPlayerConnect(playerid)
 {
     _@m_ptd[playerid][0] = CreatePlayerTextDraw(playerid, 498.966491, 140.937042, "LD_SPAC:white"); // Main BG
     PlayerTextDrawTextSize(playerid, _@m_ptd[playerid][0], 110.000000, 51.000000);
@@ -253,14 +257,10 @@ public OnPlayerConnect(playerid)
     }
 
     SetPVarInt(playerid, "Menu.SelectIndex", -1);
-    #if defined yPrefix_OnPlayerConnect
-        return yPrefix_OnPlayerConnect(playerid);
-    #else
-        return 1;
-    #endif
+    return 1;
 }
 
-public OnPlayerDisconnect(playerid, reason)
+hook OnPlayerDisconnect(playerid, reason)
 {
     Iter_Clear(player_items[playerid]);
     for(new i = 0; i < 5; i ++) 
@@ -280,14 +280,10 @@ public OnPlayerDisconnect(playerid, reason)
             _@m_box[playerid][i] = PlayerText:INVALID_TEXT_DRAW;
         }   
     }   
-    #if defined yPrefix_OnPlayerDisconnect
-        return yPrefix_OnPlayerDisconnect(playerid, reason);
-    #else
-        return 1;
-    #endif
+    return 1;
 }
 
-public OnPlayerUpdate(playerid)
+hook OnPlayerUpdate(playerid)
 {
     if(Menu_Showing(playerid) && count_tick[playerid] - GetTickCount() <= 0)
     {
@@ -354,14 +350,10 @@ public OnPlayerUpdate(playerid)
             }
         }
     }
-    #if defined yPrefix_OnPlayerUpdate
-        return yPrefix_OnPlayerUpdate(playerid);
-    #else
-        return 1;
-    #endif
+    return 1;
 }
 
-public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
     if(Menu_Showing(playerid))
     {
@@ -379,74 +371,10 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
             }           
         }
     }
-    #if defined yPrefix_OnPlayerKeyStateChange
-        return yPrefix_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
-    #else
-        return 1;
-    #endif
+    return 1;
 }
 
-public OnGameModeInit()
+hook OnGameModeInit()
 {
     Iter_Init(player_items);
-    #if defined yPrefix_OnGameModeInit
-        return yPrefix_OnGameModeInit();
-    #else
-        return 1;
-    #endif
 }
-
-#if defined _ALS_OnPlayerConnect
-    #undef OnPlayerConnect
-#else
-    #define _ALS_OnPlayerConnect
-#endif
-
-#define OnPlayerConnect yPrefix_OnPlayerConnect
-#if defined yPrefix_OnPlayerConnect
-    forward yPrefix_OnPlayerConnect(playerid);
-#endif
-
-#if defined _ALS_OnPlayerDisconnect
-    #undef OnPlayerDisconnect
-#else
-    #define _ALS_OnPlayerDisconnect
-#endif
-
-#define OnPlayerDisconnect yPrefix_OnPlayerDisconnect
-#if defined yPrefix_OnPlayerDisconnect
-    forward yPrefix_OnPlayerDisconnect(playerid, reason);
-#endif
-
-#if defined _ALS_OnGameModeInit
-    #undef OnGameModeInit
-#else
-    #define _ALS_OnGameModeInit
-#endif
-
-#define OnGameModeInit yPrefix_OnGameModeInit
-#if defined yPrefix_OnGameModeInit
-    forward yPrefix_OnGameModeInit();
-#endif
-
-#if defined _ALS_OnPlayerUpdate
-    #undef OnPlayerUpdate
-#else
-    #define _ALS_OnPlayerUpdate
-#endif
-
-#define OnPlayerUpdate yPrefix_OnPlayerUpdate
-#if defined yPrefix_OnPlayerUpdate
-    forward yPrefix_OnPlayerUpdate(playerid);
-#endif
-
-#if defined _ALS_OnPlayerKeyStateChange
-    #undef OnPlayerKeyStateChange
-#else
-    #define _ALS_OnPlayerKeyStateChange
-#endif
-
-#define OnPlayerKeyStateChange yPrefix_OnPlayerKeyStateChange
-#if defined yPrefix_OnPlayerKeyStateChange
-    forward yPrefix_OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
-#endif
